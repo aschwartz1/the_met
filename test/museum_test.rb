@@ -10,8 +10,8 @@ class MuseumTest < Minitest::Test
 
   def exhibits
     {
-      chemex: create_exhibit({name: "Chemex", cost: 0}),
-      rocks: create_exhibit({name: "Rocks", cost: 0})
+      chemex: create_exhibit({name: 'Chemex', cost: 0}),
+      rocks: create_exhibit({name: 'Rocks', cost: 0})
     }
   end
 
@@ -32,6 +32,6 @@ class MuseumTest < Minitest::Test
     @moma.add_exhibit(exhibits[:chemex])
 
     assert_equal 1, @moma.exhibits.length
-    assert_equal "Chemex", @moma.exhibits.first.name
+    assert_equal 'Chemex', @moma.exhibits.first.name
   end
 end
