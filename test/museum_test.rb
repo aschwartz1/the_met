@@ -7,6 +7,9 @@ require './lib/patron'
 class MuseumTest < Minitest::Test
   def setup
     @moma = Museum.new('Museum of Modern Art')
+
+    @bob = Patron.new('Bob', 10)
+    @bob.add_interest('Chemex')
   end
 
   def create_exhibit(data)
@@ -31,13 +34,17 @@ class MuseumTest < Minitest::Test
     assert_equal chemex, @moma.exhibits.first
   end
 
+  def test_can_admit_patrons
+    @moma.admit(@bob)
+
+    assert_equal 1, @moma.patrons.length
+    assert_equal @bob, @moma.patrons.first
+  end
+
   def test_can_recommend_exhibits
     chemex = create_exhibit({name: 'Chemex', cost: 0})
     @moma.add_exhibit(chemex)
 
-    bob = Patron.new('Bob', 10)
-    bob.add_interest('Chemex')
-
-    assert_equal [chemex], @moma.recommend_exhibits(bob)
+    assert_equal [chemex], @moma.recommend_exhibits(@bob)
   end
 end

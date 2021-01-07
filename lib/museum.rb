@@ -13,6 +13,10 @@ class Museum
     @exhibits << exhibit unless @exhibits.include? exhibit
   end
 
+  def admit(patron)
+    @patrons << patron unless @patrons.include? patron
+  end
+
   def recommend_exhibits(patron)
     @exhibits.select do |exhibit|
       patron.interests.include? exhibit.name
