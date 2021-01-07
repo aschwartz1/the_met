@@ -38,6 +38,18 @@ class Museum
     patrons_by_exhibit
   end
 
+  def ticket_lottery_contestants
+    patrons_by_exhibit_interest.flat_map do |exhibit, patrons|
+      who_cannot_afford_to_see(patrons, exhibit)
+    end
+  end
+
+  def who_cannot_afford_to_see(patrons, exhibit)
+    patrons.select do |patron|
+      exhibit.cost > patron.spending_money
+    end
+  end
+
   private
 
   def patron_interested_in?(patron, exhibit)

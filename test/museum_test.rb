@@ -10,6 +10,8 @@ class MuseumTest < Minitest::Test
 
     @bob = Patron.new('Bob', 10)
     @bob.add_interest('Chemex')
+    @kim = Patron.new('Kim', 0)
+    @kim.add_interest('Rocks')
 
     @chemex = create_exhibit({name: 'Chemex', cost: 0})
     @rocks = create_exhibit({name: 'Rocks', cost: 25})
@@ -69,5 +71,14 @@ class MuseumTest < Minitest::Test
     }
 
     assert_equal expected, @moma.patrons_by_exhibit_interest
+  end
+
+  def test_generates_lottery_contestants
+    @moma.add_exhibit(@chemex)
+    @moma.add_exhibit(@rocks)
+    @moma.admit(@bob)
+    @moma.admit(@kim)
+
+    assert_equal [@kim], @moma.ticket_lottery_contestants
   end
 end
