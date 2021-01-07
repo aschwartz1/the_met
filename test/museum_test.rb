@@ -49,6 +49,15 @@ class MuseumTest < Minitest::Test
     assert_equal [@chemex], @moma.recommend_exhibits(@bob)
   end
 
+  def test_can_find_patrons_interested_in_exhibit
+    @moma.add_exhibit(@chemex)
+    @moma.add_exhibit(@rocks)
+    @moma.admit(@bob)
+
+    assert_equal [@bob], @moma.patrons_interested_in(@chemex)
+    assert_equal [], @moma.patrons_interested_in(@rocks)
+  end
+
   def test_can_group_patrons_by_exhibit_interest
     @moma.add_exhibit(@chemex)
     @moma.add_exhibit(@rocks)
