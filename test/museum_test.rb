@@ -20,6 +20,7 @@ class MuseumTest < Minitest::Test
   def test_readable_attributes
     assert_equal 'Museum of Modern Art', @moma.name
     assert_equal [], @moma.exhibits
+    assert_equal [], @moma.patrons
   end
 
   def test_can_add_exhibits
