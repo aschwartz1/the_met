@@ -9,7 +9,7 @@ class ExhibitTest < Minitest::Test
 
   def data
     {
-      rocks: {name: "Rocks", cost: 0}
+      rocks: {name: 'Rocks', cost: 0}
     }
   end
 
@@ -18,7 +18,7 @@ class ExhibitTest < Minitest::Test
   end
 
   def test_readable_attributes
-    assert_equal "Rocks", @rocks.name
+    assert_equal 'Rocks', @rocks.name
     assert_equal 0, @rocks.cost
   end
 end
