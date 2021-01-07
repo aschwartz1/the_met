@@ -44,15 +44,22 @@ class Museum
     end
   end
 
-  def who_cannot_afford_to_see(patrons, exhibit)
-    patrons.select do |patron|
-      exhibit.cost > patron.spending_money
-    end
+  def draw_lottery_winner
+    lottery_contestants = ticket_lottery_contestants
+    return nil if lottery_contestants.nil?
+
+    # TODO implement random select
   end
 
   private
 
   def patron_interested_in?(patron, exhibit)
     patron.interests.include? exhibit.name
+  end
+
+  def who_cannot_afford_to_see(patrons, exhibit)
+    patrons.select do |patron|
+      exhibit.cost > patron.spending_money
+    end
   end
 end

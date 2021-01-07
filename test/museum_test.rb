@@ -8,10 +8,13 @@ class MuseumTest < Minitest::Test
   def setup
     @moma = Museum.new('Museum of Modern Art')
 
-    @bob = Patron.new('Bob', 10)
+    @bob = Patron.new('Bob', 25)
     @bob.add_interest('Chemex')
     @kim = Patron.new('Kim', 0)
     @kim.add_interest('Rocks')
+    @kim.add_interest('Chemex')
+    @joe = Patron.new('Joe', 0)
+    @joe.add_interest('Rocks')
 
     @chemex = create_exhibit({name: 'Chemex', cost: 0})
     @rocks = create_exhibit({name: 'Rocks', cost: 25})
@@ -78,7 +81,28 @@ class MuseumTest < Minitest::Test
     @moma.add_exhibit(@rocks)
     @moma.admit(@bob)
     @moma.admit(@kim)
+    @moma.admit(@joe)
 
-    assert_equal [@kim], @moma.ticket_lottery_contestants
+    assert_equal [@kim, @joe], @moma.ticket_lottery_contestants
+  end
+
+  def test_can_select_a_lottery_winner
+    @moma.add_exhibit(@chemex)
+    @moma.add_exhibit(@rocks)
+    @moma.admit(@bob)
+    @moma.admit(@kim)
+    @moma.admit(@joe)
+
+    # TODO Ran out of time here, before being able to make sure this is a good test
+    assert_equal true, ([@kim, @joe].include? @moma.draw_lottery_winner)
+  end
+
+  def test_can_be_no_lottery_winners
+    @moma.add_exhibit(@chemex)
+    @moma.admit(@bob)
+    @moma.admit(@kim)
+    @moma.admit(@joe)
+
+    assert_nil @moma.draw_lottery_winner
   end
 end
