@@ -3,9 +3,16 @@ require 'minitest/pride'
 require './lib/patron'
 
 class PatronTest < Minitest::Test
-  def test_it_exists
-    bob = Patron.new
+  def setup
+    @bob = Patron.new("Bob", 20)
+  end
 
-    assert_instance_of Patron, bob
+  def test_it_exists
+    assert_instance_of Patron, @bob
+  end
+
+  def test_readable_attributes
+    assert_equal "Bob", @bob.name
+    assert_equal 20, @bob.spending_money
   end
 end
