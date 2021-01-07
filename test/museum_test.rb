@@ -2,17 +2,11 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/museum'
 require './lib/exhibit'
+require './lib/patron'
 
 class MuseumTest < Minitest::Test
   def setup
     @moma = Museum.new('Museum of Modern Art')
-  end
-
-  def exhibits
-    {
-      chemex: create_exhibit({name: 'Chemex', cost: 0}),
-      rocks: create_exhibit({name: 'Rocks', cost: 0})
-    }
   end
 
   def create_exhibit(data)
@@ -29,9 +23,20 @@ class MuseumTest < Minitest::Test
   end
 
   def test_can_add_exhibits
-    @moma.add_exhibit(exhibits[:chemex])
+    chemex = create_exhibit({name: 'Chemex', cost: 0})
+    @moma.add_exhibit(chemex)
 
     assert_equal 1, @moma.exhibits.length
-    assert_equal 'Chemex', @moma.exhibits.first.name
+    assert_equal chemex, @moma.exhibits.first
+  end
+
+  def test_can_recommend_exhibits
+    chemex = create_exhibit({name: 'Chemex', cost: 0})
+    @moma.add_exhibit(chemex)
+
+    bob = Patron.new('Bob', 10)
+    bob.add_interest('Chemex')
+
+    assert_equal [chemex], @moma.recommend_exhibits(bob)
   end
 end
