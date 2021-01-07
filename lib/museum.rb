@@ -22,4 +22,8 @@ class Museum
       patron.interests.include? exhibit.name
     end
   end
+
+  def patrons_by_exhibit_interest
+
+  end
 end

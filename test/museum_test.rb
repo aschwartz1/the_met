@@ -10,6 +10,9 @@ class MuseumTest < Minitest::Test
 
     @bob = Patron.new('Bob', 10)
     @bob.add_interest('Chemex')
+
+    @chemex = create_exhibit({name: 'Chemex', cost: 0})
+    @rocks = create_exhibit({name: 'Rocks', cost: 25})
   end
 
   def create_exhibit(data)
@@ -27,11 +30,10 @@ class MuseumTest < Minitest::Test
   end
 
   def test_can_add_exhibits
-    chemex = create_exhibit({name: 'Chemex', cost: 0})
-    @moma.add_exhibit(chemex)
+    @moma.add_exhibit(@chemex)
 
     assert_equal 1, @moma.exhibits.length
-    assert_equal chemex, @moma.exhibits.first
+    assert_equal @chemex, @moma.exhibits.first
   end
 
   def test_can_admit_patrons
@@ -42,9 +44,21 @@ class MuseumTest < Minitest::Test
   end
 
   def test_can_recommend_exhibits
-    chemex = create_exhibit({name: 'Chemex', cost: 0})
-    @moma.add_exhibit(chemex)
+    @moma.add_exhibit(@chemex)
 
-    assert_equal [chemex], @moma.recommend_exhibits(@bob)
+    assert_equal [@chemex], @moma.recommend_exhibits(@bob)
+  end
+
+  def test_can_group_patrons_by_exhibit_interest
+    @moma.add_exhibit(@chemex)
+    @moma.add_exhibit(@rocks)
+    @moma.admit(@bob)
+
+    expected = {
+      @chemex => [@bob],
+      @rocks => []
+    }
+
+    assert_equal expected, @moma.patrons_by_exhibit_interest
   end
 end
