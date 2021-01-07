@@ -10,4 +10,9 @@ class MuseumTest < Minitest::Test
   def test_it_exists
     assert_instance_of Museum, @moma
   end
+
+  def test_readable_attributes
+    assert_equal 'Museum of Modern Art', @moma.name
+    assert_equal [], @moma.exhibits
+  end
 end
